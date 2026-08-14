@@ -1,47 +1,49 @@
 package de.thnuernberg.eit.regis.sponsor_tracker.controller;
 
 import de.thnuernberg.eit.regis.sponsor_tracker.model.Interaction;
-import de.thnuernberg.eit.regis.sponsor_tracker.service.InteractionService;
+import de.thnuernberg.eit.regis.sponsor_tracker.model.Sponsorship;
+import de.thnuernberg.eit.regis.sponsor_tracker.service.SponsorshipService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/interactions")
-public class InteractionController {
+@RequestMapping("/api/sponsorships")
+public class SponsorshipController {
 
-    private final InteractionService service;
+    private final SponsorshipService service;
 
-    public InteractionController(InteractionService service) {
+    public SponsorshipController(SponsorshipService service) {
         this.service = service;
     }
 
     @GetMapping
-    public List<Interaction> list() {
+    public List<Sponsorship> list() {
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Interaction> getOne(@PathVariable Long id) {
+    public ResponseEntity<Sponsorship> getOne(@PathVariable Long id) {
         return service.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Interaction> create(
-            @RequestBody Interaction interaction,
+    public ResponseEntity<Sponsorship> create(
+            @RequestBody Sponsorship sponsorship,
             @RequestParam Long companyId,
+            @RequestParam Long eventId,
             @RequestHeader(value = "X-Created-By", defaultValue = "anonymous") String createdBy) {
-        return service.create(interaction, companyId, createdBy)
+        return service.create(sponsorship, companyId, eventId, createdBy)
                 .map(created -> ResponseEntity.status(201).body(created))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Interaction> update(@PathVariable Long id, @RequestBody Interaction event) {
-        return service.update(id, event)
+    public ResponseEntity<Sponsorship> update(@PathVariable Long id, @RequestBody Sponsorship sponsorship) {
+        return service.update(id, sponsorship)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }
@@ -53,5 +55,6 @@ public class InteractionController {
         }
         return ResponseEntity.notFound().build();
     }
+
 
 }
