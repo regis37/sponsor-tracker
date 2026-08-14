@@ -16,7 +16,7 @@ public class InteractionService {
     private final CompanyRepository companyRepository;
 
     public InteractionService(InteractionRepository repository,
-                              CompanyRepository companyRepository) {
+            CompanyRepository companyRepository) {
         this.repository = repository;
         this.companyRepository = companyRepository;
     }
@@ -55,6 +55,10 @@ public class InteractionService {
             return true;
         }
         return false;
+    }
+
+    public List<Interaction> findByCompany(Long companyId) {
+        return repository.findByCompanyIdOrderByDateDesc(companyId);
     }
 
 }
