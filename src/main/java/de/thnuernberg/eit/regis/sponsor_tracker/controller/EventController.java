@@ -1,5 +1,6 @@
 package de.thnuernberg.eit.regis.sponsor_tracker.controller;
 
+import de.thnuernberg.eit.regis.sponsor_tracker.dto.BudgetSummary;
 import de.thnuernberg.eit.regis.sponsor_tracker.model.Event;
 import de.thnuernberg.eit.regis.sponsor_tracker.model.Interaction;
 import de.thnuernberg.eit.regis.sponsor_tracker.model.Sponsorship;
@@ -42,6 +43,18 @@ public class EventController {
         return ResponseEntity.ok(sponsorshipService.findAll());
     }
 
+    @GetMapping("/{id}/budget")
+    public ResponseEntity<BudgetSummary> budget(@PathVariable Long id) {
+        return service.findById(id)
+                .map(event -> {
+                    double target = event.getTargetBudget();
+                    double secured = sponsorshipService.securedAmountForEvent(id);
+                    double remaining = target - secured;
+                    return ResponseEntity.ok(new BudgetSummary(target, secured, remaining));
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping
     public ResponseEntity<Event> create(@RequestBody Event event) {
         Event created = service.create(event);
@@ -51,8 +64,8 @@ public class EventController {
     @PutMapping("/{id}")
     public ResponseEntity<Event> update(@PathVariable Long id, @RequestBody Event event) {
         return service.update(id, event)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")

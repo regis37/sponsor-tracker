@@ -1,6 +1,7 @@
 package de.thnuernberg.eit.regis.sponsor_tracker.service;
 
 import de.thnuernberg.eit.regis.sponsor_tracker.model.Sponsorship;
+import de.thnuernberg.eit.regis.sponsor_tracker.model.SponsorshipStatus;
 import de.thnuernberg.eit.regis.sponsor_tracker.model.Company;
 import de.thnuernberg.eit.regis.sponsor_tracker.model.Event;
 import de.thnuernberg.eit.regis.sponsor_tracker.model.Interaction;
@@ -38,6 +39,14 @@ public class SponsorshipService {
         return repository.findByEventId(eventId);
     }
 
+    public double securedAmountForEvent(Long eventId) {
+        return repository.findByEventId(eventId).stream()
+                .filter(s -> s.getStatus() == SponsorshipStatus.SIGNED
+                        || s.getStatus() == SponsorshipStatus.RECEIVED)
+                .mapToDouble(Sponsorship::getAmount)
+                .sum();
+    }
+
     public Optional<Sponsorship> findById(Long id) {
         return repository.findById(id);
     }
@@ -52,7 +61,7 @@ public class SponsorshipService {
         }));
     }
 
-    public Optional<Sponsorship> update(Long id, Sponsorship updated){
+    public Optional<Sponsorship> update(Long id, Sponsorship updated) {
         return repository.findById(id).map(existing -> {
             existing.setAmount(updated.getAmount());
             existing.setContributionType(updated.getContributionType());
