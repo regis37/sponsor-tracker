@@ -1,0 +1,59 @@
+@host = http://localhost:8082
+
+### Liste des companies
+GET {{host}}/api/companies
+
+### Créer une company
+POST {{host}}/api/companies
+Content-Type: application/json
+X-Created-By: Regis
+
+{
+  "name": "Siemens",
+  "sector": "INDUSTRY",
+  "city": "Munich"
+}
+
+### Créer une interaction liée à la company 1
+POST {{host}}/api/interactions?companyId=1
+Content-Type: application/json
+X-Created-By: Regis
+
+{
+  "date": "2026-08-01",
+  "type": "EMAIL",
+  "summary": "Premier contact",
+  "outcome": "TO_FOLLOW_UP",
+  "nextActionDate": "2026-08-10",
+  "nextActionNote": "Relancer"
+}
+
+### Historique d'une company
+GET {{host}}/api/companies/1/history
+
+### À relancer aujourd'hui
+GET {{host}}/api/companies/to-follow-up
+
+### Créer un sponsorship pour tester
+POST {{host}}/api/sponsorships?companyId=1&eventId=1
+Content-Type: application/json
+X-Created-By: Regis
+
+{
+  "amount": 1500.0,
+  "contributionType": "FINANCIAL",
+  "status": "NEGOTIATION",
+  "notes": "En discussion"
+}
+
+### Sponsors d'un événement
+GET {{host}}/api/events/1/sponsorships
+
+### Event inexistant → 404
+GET {{host}}/api/events/999/sponsorships
+
+### Budget d'un événement
+GET {{host}}/api/events/1/budget
+
+### Dashboard global
+GET {{host}}/api/stats
