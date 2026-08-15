@@ -6,6 +6,7 @@ import de.thnuernberg.eit.regis.sponsor_tracker.repository.CompanyRepository;
 import de.thnuernberg.eit.regis.sponsor_tracker.repository.InteractionRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +60,10 @@ public class InteractionService {
 
     public List<Interaction> findByCompany(Long companyId) {
         return repository.findByCompanyIdOrderByDateDesc(companyId);
+    }
+
+    public List<Interaction> findToFollowUp() {
+        return repository.findByNextActionDateLessThanEqualOrderByNextActionDateAsc(LocalDate.now());
     }
 
 }

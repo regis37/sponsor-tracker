@@ -34,6 +34,10 @@ public class SponsorshipService {
         return repository.findAll();
     }
 
+    public List<Sponsorship> findByEvent(Long eventId) {
+        return repository.findByEventId(eventId);
+    }
+
     public Optional<Sponsorship> findById(Long id) {
         return repository.findById(id);
     }

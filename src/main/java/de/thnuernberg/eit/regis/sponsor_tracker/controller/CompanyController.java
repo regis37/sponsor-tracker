@@ -41,6 +41,11 @@ public class CompanyController {
         return ResponseEntity.ok(interactionService.findByCompany(id));
     }
 
+    @GetMapping("/to-follow-up")
+    public List<Interaction> toFollowUp() {
+        return interactionService.findToFollowUp();
+    }
+
     @PostMapping
     public ResponseEntity<Company> create(
             @RequestBody Company company,

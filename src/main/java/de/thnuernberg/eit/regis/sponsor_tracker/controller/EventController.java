@@ -1,7 +1,10 @@
 package de.thnuernberg.eit.regis.sponsor_tracker.controller;
 
 import de.thnuernberg.eit.regis.sponsor_tracker.model.Event;
+import de.thnuernberg.eit.regis.sponsor_tracker.model.Interaction;
+import de.thnuernberg.eit.regis.sponsor_tracker.model.Sponsorship;
 import de.thnuernberg.eit.regis.sponsor_tracker.service.EventService;
+import de.thnuernberg.eit.regis.sponsor_tracker.service.SponsorshipService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +15,11 @@ import java.util.List;
 public class EventController {
 
     private final EventService service;
+    private final SponsorshipService sponsorshipService;
 
-    public EventController(EventService service) {
+    public EventController(EventService service, SponsorshipService sponsorshipService) {
         this.service = service;
+        this.sponsorshipService = sponsorshipService;
     }
 
     @GetMapping
@@ -27,6 +32,14 @@ public class EventController {
         return service.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{id}/sponsorships")
+    public ResponseEntity<List<Sponsorship>> history(@PathVariable Long id) {
+        if (!service.findById(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(sponsorshipService.findAll());
     }
 
     @PostMapping

@@ -16,7 +16,7 @@ public class Event {
     private String name;
 
 
-    private LocalDate date;
+    private LocalDate eventDate;
 
     private double targetBudget;
 
@@ -33,8 +33,8 @@ public class Event {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public LocalDate  getDate() { return date; }
-    public void setDate(LocalDate  date) { this.date = date; }
+    public LocalDate  getDate() { return eventDate; }
+    public void setDate(LocalDate  eventDate) { this.eventDate = eventDate; }
 
     public double getTargetBudget() { return targetBudget; }
     public void setTargetBudget(double targetBudget) { this.targetBudget = targetBudget; }
