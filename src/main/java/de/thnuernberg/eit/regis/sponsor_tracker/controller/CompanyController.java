@@ -6,6 +6,7 @@ import de.thnuernberg.eit.regis.sponsor_tracker.service.CompanyService;
 import de.thnuernberg.eit.regis.sponsor_tracker.service.InteractionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -48,18 +49,21 @@ public class CompanyController {
 
     @PostMapping
     public ResponseEntity<Company> create(
-            @RequestBody Company company,
+            @Valid @RequestBody Company company,
             @RequestHeader(value = "X-Created-By", defaultValue = "anonymous") String createdBy) {
         Company created = service.create(company, createdBy);
         return ResponseEntity.status(201).body(created);
     }
 
+    
+
     @PutMapping("/{id}")
-    public ResponseEntity<Company> update(@PathVariable Long id, @RequestBody Company company) {
+    public ResponseEntity<Company> update(@PathVariable Long id, @Valid @RequestBody Company company) {
         return service.update(id, company)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {

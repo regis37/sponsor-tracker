@@ -1,8 +1,9 @@
 package de.thnuernberg.eit.regis.sponsor_tracker.model;
 
 import java.time.LocalDate;
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "events")
@@ -12,12 +13,14 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Event name is required")
     @Column(nullable = false)
     private String name;
 
 
     private LocalDate eventDate;
 
+    @PositiveOrZero(message = "Target budget cannot be negative")
     private double targetBudget;
 
 

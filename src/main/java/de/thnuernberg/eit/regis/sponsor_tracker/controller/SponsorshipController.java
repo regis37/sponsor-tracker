@@ -5,6 +5,7 @@ import de.thnuernberg.eit.regis.sponsor_tracker.model.Sponsorship;
 import de.thnuernberg.eit.regis.sponsor_tracker.service.SponsorshipService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class SponsorshipController {
 
     @PostMapping
     public ResponseEntity<Sponsorship> create(
-            @RequestBody Sponsorship sponsorship,
+            @Valid @RequestBody Sponsorship sponsorship,
             @RequestParam Long companyId,
             @RequestParam Long eventId,
             @RequestHeader(value = "X-Created-By", defaultValue = "anonymous") String createdBy) {
@@ -42,7 +43,7 @@ public class SponsorshipController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Sponsorship> update(@PathVariable Long id, @RequestBody Sponsorship sponsorship) {
+    public ResponseEntity<Sponsorship> update(@PathVariable Long id, @Valid @RequestBody Sponsorship sponsorship) {
         return service.update(id, sponsorship)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());

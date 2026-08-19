@@ -8,6 +8,7 @@ import de.thnuernberg.eit.regis.sponsor_tracker.service.EventService;
 import de.thnuernberg.eit.regis.sponsor_tracker.service.SponsorshipService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -56,13 +57,13 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<Event> create(@RequestBody Event event) {
+    public ResponseEntity<Event> create(@Valid @RequestBody Event event) {
         Event created = service.create(event);
         return ResponseEntity.status(201).body(created);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Event> update(@PathVariable Long id, @RequestBody Event event) {
+    public ResponseEntity<Event> update(@PathVariable Long id, @Valid @RequestBody Event event) {
         return service.update(id, event)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

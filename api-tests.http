@@ -57,3 +57,17 @@ GET {{host}}/api/events/1/budget
 
 ### Dashboard global
 GET {{host}}/api/stats
+
+### Company valide → 201
+POST {{host}}/api/companies
+Content-Type: application/json
+X-Created-By: regis37
+
+{ "name": "Bosch", "sector": "INDUSTRY", "city": "Stuttgart" }
+
+### Company SANS nom → doit être rejetée (400)
+POST {{host}}/api/companies
+Content-Type: application/json
+X-Created-By: regis37
+
+{ "sector": "INDUSTRY", "city": "Stuttgart" }

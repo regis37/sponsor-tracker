@@ -4,6 +4,7 @@ import de.thnuernberg.eit.regis.sponsor_tracker.model.Interaction;
 import de.thnuernberg.eit.regis.sponsor_tracker.service.InteractionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class InteractionController {
 
     @PostMapping
     public ResponseEntity<Interaction> create(
-            @RequestBody Interaction interaction,
+            @Valid @RequestBody Interaction interaction,
             @RequestParam Long companyId,
             @RequestHeader(value = "X-Created-By", defaultValue = "anonymous") String createdBy) {
         return service.create(interaction, companyId, createdBy)
@@ -40,7 +41,7 @@ public class InteractionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Interaction> update(@PathVariable Long id, @RequestBody Interaction event) {
+    public ResponseEntity<Interaction> update(@PathVariable Long id, @Valid @RequestBody Interaction event) {
         return service.update(id, event)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());

@@ -2,6 +2,7 @@ package de.thnuernberg.eit.regis.sponsor_tracker.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "interactions")
@@ -16,6 +17,7 @@ public class Interaction {
     @Enumerated(EnumType.STRING)
     private InteractionType type;
 
+    @NotBlank(message = "Summary is required")
     @Column(length = 2000)
     private String summary;
 

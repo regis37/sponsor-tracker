@@ -2,6 +2,7 @@ package de.thnuernberg.eit.regis.sponsor_tracker.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "companies")
@@ -11,6 +12,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Company name is required")
     @Column(nullable = false)
     private String name;
 

@@ -2,7 +2,7 @@ package de.thnuernberg.eit.regis.sponsor_tracker.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-
+import jakarta.validation.constraints.PositiveOrZero;
 import de.thnuernberg.eit.regis.sponsor_tracker.model.Sector;
 
 @Entity
@@ -12,6 +12,7 @@ public class Sponsorship {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @PositiveOrZero(message = "Amount cannot be negative")
     private double amount;
 
     @Enumerated(EnumType.STRING)
