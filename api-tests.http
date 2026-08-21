@@ -3,6 +3,9 @@
 ### Liste des companies
 GET {{host}}/api/companies
 
+### Un GET par id
+GET {{host}}/api/companies/1
+
 ### Créer une company
 POST {{host}}/api/companies
 Content-Type: application/json
