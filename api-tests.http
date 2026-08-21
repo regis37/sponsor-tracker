@@ -50,6 +50,9 @@ X-Created-By: Regis
 }
 
 ### Sponsors d'un événement
+GET {{host}}/api/sponsorships
+
+### Sponsors d'un événement
 GET {{host}}/api/events/1/sponsorships
 
 ### Event inexistant → 404

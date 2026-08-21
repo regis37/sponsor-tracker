@@ -6,6 +6,8 @@ import de.thnuernberg.eit.regis.sponsor_tracker.model.Interaction;
 import de.thnuernberg.eit.regis.sponsor_tracker.model.Sponsorship;
 import de.thnuernberg.eit.regis.sponsor_tracker.service.EventService;
 import de.thnuernberg.eit.regis.sponsor_tracker.service.SponsorshipService;
+import de.thnuernberg.eit.regis.sponsor_tracker.dto.SponsorshipResponse;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
@@ -37,11 +39,14 @@ public class EventController {
     }
 
     @GetMapping("/{id}/sponsorships")
-    public ResponseEntity<List<Sponsorship>> history(@PathVariable Long id) {
+    public ResponseEntity<List<SponsorshipResponse>> sponsorships(@PathVariable Long id) {
         if (!service.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(sponsorshipService.findAll());
+        List<SponsorshipResponse> result = sponsorshipService.findByEvent(id).stream()
+                .map(SponsorshipResponse::new)
+                .toList();
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}/budget")
