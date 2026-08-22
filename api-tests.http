@@ -77,3 +77,52 @@ Content-Type: application/json
 X-Created-By: regis37
 
 { "sector": "INDUSTRY", "city": "Stuttgart" }
+
+
+
+
+
+
+
+### Company
+POST {{host}}/api/companies
+Content-Type: application/json
+X-Created-By: Regis
+
+{ "name": "Siemens", "sector": "INDUSTRY", "city": "Munich" }
+
+### Event
+POST {{host}}/api/events
+Content-Type: application/json
+
+{ "name": "Gala 2026", "date": "2026-11-15", "targetBudget": 5000.0, "description": "Gala annuel" }
+
+### Interaction liée à la company 1
+POST {{host}}/api/interactions?companyId=1
+Content-Type: application/json
+X-Created-By: Regis
+
+{ "date": "2026-08-01", "type": "EMAIL", "summary": "Premier contact", "outcome": "TO_FOLLOW_UP", "nextActionDate": "2026-08-10", "nextActionNote": "Relancer" }
+
+### Sponsorship liant company 1 et event 1
+POST {{host}}/api/sponsorships?companyId=1&eventId=1
+Content-Type: application/json
+X-Created-By: Regis
+
+{ "amount": 10000.0, "contributionType": "MIXED", "status": "RECEIVED", "notes": "Sponsor principal" }
+
+
+## Vérification
+
+
+### Historique
+GET {{host}}/api/companies/1/history
+
+### À relancer
+GET {{host}}/api/companies/to-follow-up
+
+### Budget de l'event (doit montrer secured: 10000)
+GET {{host}}/api/events/1/budget
+
+### Dashboard
+GET {{host}}/api/stats
