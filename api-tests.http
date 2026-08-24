@@ -79,11 +79,6 @@ X-Created-By: regis37
 { "sector": "INDUSTRY", "city": "Stuttgart" }
 
 
-
-
-
-
-
 ### Company
 POST {{host}}/api/companies
 Content-Type: application/json
@@ -110,19 +105,3 @@ Content-Type: application/json
 X-Created-By: Regis
 
 { "amount": 10000.0, "contributionType": "MIXED", "status": "RECEIVED", "notes": "Sponsor principal" }
-
-
-## Vérification
-
-
-### Historique
-GET {{host}}/api/companies/1/history
-
-### À relancer
-GET {{host}}/api/companies/to-follow-up
-
-### Budget de l'event (doit montrer secured: 10000)
-GET {{host}}/api/events/1/budget
-
-### Dashboard
-GET {{host}}/api/stats
